@@ -1,5 +1,5 @@
-import background  from "../assets/images/background.jpg";
-import icon from "../assets/images/icon.png";
+import background from "../assets/images/background.jpg";
+import arrowDown from "../assets/images/arrowDown.png";
+import arrowUp from "../assets/images/arrowUp.png";
 
-
-export default { background, icon };
+export default { background, arrowDown, arrowUp };
