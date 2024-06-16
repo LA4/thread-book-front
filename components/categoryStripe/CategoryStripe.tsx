@@ -21,8 +21,6 @@ const handlePress= ()=>{
     )
 }
 const CategoryStripe = () => {
-
-
   return (
   <View style={styles.container}>
       <ScrollView 
