@@ -12,7 +12,6 @@ const ListCategoryItem = ({category}:PropsListCategory )=>{
     const [active, setActive]=useState<Boolean>(false)
 const handlePress= ()=>{
     setActive(!active)
-    console.log("press")
 }
     return (
         <Pressable
