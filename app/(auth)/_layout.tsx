@@ -1,11 +1,14 @@
-import { View, Text } from 'react-native'
+import { View, Text, ImageBackground } from 'react-native'
 import React from 'react'
-
+import { Slot } from 'expo-router'
+import image from "../../constants/images"
 const AuthLayout = () => {
     return (
-        <View>
-            <Text>AuthLayout</Text>
-        </View>
+        <>
+            <ImageBackground source={image.background} resizeMode="cover" style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <Slot></Slot>
+            </ImageBackground >
+        </>
     )
 }
 

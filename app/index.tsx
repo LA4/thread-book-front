@@ -11,7 +11,6 @@ const index = () => {
             resizeMode='cover'
             style={{ flex: 1, backgroundColor: "(0deg, rgba(159,172,172,1) 0%, rgba(126,126,126,1) 100%)" }}
         >
-            {/* <linearGradient color='red'> */}
             <SafeAreaView>
                 <ScrollView contentContainerStyle={{ height: "100%" }}>
                     <View style={styles.container}>
@@ -19,14 +18,17 @@ const index = () => {
                             fontSize: 48,
                             color: "white"
                         }}>TreadBook</Text>
-                        <Link href={"/home"} style={{
+                        <Link href={"/(auth)/signIn"} style={{
                             fontSize: 48,
                             color: "white"
-                        }}> Click here to enter</Link>
+                        }}> Sign in</Link>
+                        <Link href={"/(auth)/signUp"} style={{
+                            fontSize: 48,
+                            color: "white"
+                        }}>sign up</Link>
                     </View>
                 </ScrollView>
             </SafeAreaView >
-            {/* </linearGradient> */}
         </ImageBackground>
     )
 }
