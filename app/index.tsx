@@ -11,6 +11,10 @@ const index = () => {
             resizeMode='cover'
             style={{ flex: 1, backgroundColor: "(0deg, rgba(159,172,172,1) 0%, rgba(126,126,126,1) 100%)" }}
         >
+<<<<<<< HEAD
+=======
+          
+>>>>>>> 8fd6e740e33feb47cd1f17fbee85d1bb760b75d1
             <SafeAreaView>
                 <ScrollView contentContainerStyle={{ height: "100%" }}>
                     <View style={styles.container}>
@@ -21,11 +25,19 @@ const index = () => {
                         <Link href={"/(auth)/signIn"} style={{
                             fontSize: 48,
                             color: "white"
+<<<<<<< HEAD
                         }}> Sign in</Link>
                         <Link href={"/(auth)/signUp"} style={{
                             fontSize: 48,
                             color: "white"
                         }}>sign up</Link>
+=======
+                        }}> Sign In</Link>
+                        <Link href={"/(tabs)/home"} style={{
+                            fontSize: 48,
+                            color: "white"
+                        }}>Go Home</Link>
+>>>>>>> 8fd6e740e33feb47cd1f17fbee85d1bb760b75d1
                     </View>
                 </ScrollView>
             </SafeAreaView >

@@ -1,3 +1,4 @@
+import TreadHeader from "@/components/header/TreadHeader";
 import { Tabs } from "expo-router";
 import { ReactElement } from "react";
 import { View, Text } from "react-native";
@@ -20,6 +21,8 @@ export default function TabLayout() {
 
   return (
     <>
+    <TreadHeader/>
+   
       <Tabs
         screenOptions={{
           tabBarShowLabel: false
