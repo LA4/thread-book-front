@@ -3,18 +3,21 @@ import React from 'react'
 import { Link } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import images from "../constants/images"
+import { useFonts } from 'expo-font';
 
 const index = () => {
+    const [fontsLoaded] = useFonts({
+        'RalewayBold': require('@/assets/fonts/Raleway-Bold.ttf'),
+        'Raleway': require('@/assets/fonts/Raleway-Regular.ttf'),
+    });
+
     return (
         <ImageBackground
             source={images.background}
             resizeMode='cover'
             style={{ flex: 1, backgroundColor: "(0deg, rgba(159,172,172,1) 0%, rgba(126,126,126,1) 100%)" }}
         >
-<<<<<<< HEAD
-=======
-          
->>>>>>> 8fd6e740e33feb47cd1f17fbee85d1bb760b75d1
+
             <SafeAreaView>
                 <ScrollView contentContainerStyle={{ height: "100%" }}>
                     <View style={styles.container}>
@@ -25,23 +28,21 @@ const index = () => {
                         <Link href={"/(auth)/signIn"} style={{
                             fontSize: 48,
                             color: "white"
-<<<<<<< HEAD
                         }}> Sign in</Link>
                         <Link href={"/(auth)/signUp"} style={{
                             fontSize: 48,
                             color: "white"
                         }}>sign up</Link>
-=======
-                        }}> Sign In</Link>
+
                         <Link href={"/(tabs)/home"} style={{
                             fontSize: 48,
                             color: "white"
                         }}>Go Home</Link>
->>>>>>> 8fd6e740e33feb47cd1f17fbee85d1bb760b75d1
+                        <Text style={{ color: "white", fontSize: 34, fontFamily: "RalewayBold" }}>Test font</Text>
                     </View>
                 </ScrollView>
             </SafeAreaView >
-        </ImageBackground>
+        </ImageBackground >
     )
 }
 
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center"
         , alignItems: "center"
+        , fontFamily: "Raleway"
 
     }
 })

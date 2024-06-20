@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { useFonts } from 'expo-font'
 
 type PropsButtonType = {
     name?: string,
@@ -7,6 +8,11 @@ type PropsButtonType = {
 }
 
 const FormedButton = ({ name, handleTouch }: PropsButtonType) => {
+
+    const [fontsLoaded] = useFonts({
+        'RalewayBold': require('@/assets/fonts/Raleway-Bold.ttf'),
+        'Raleway': require('@/assets/fonts/Raleway-Regular.ttf'),
+    });
     const handleTouched = () => {
         handleTouch()
     }
@@ -23,13 +29,16 @@ const styles = StyleSheet.create({
     button: {
         justifyContent: "center",
         alignItems: "center",
-        padding: 9,
+        borderRadius: 7,
+        padding: 10,
+        backgroundColor: "#58594D",
+        height: 42,
 
     },
     text: {
         color: "#E0E0D1",
-        textDecorationLine: 'underline',
-        textDecorationColor: "red",
-        fontSize: 24
+        fontSize: 18,
+        lineHeight: 22,
+        fontFamily: "Raleway"
     }
 })
