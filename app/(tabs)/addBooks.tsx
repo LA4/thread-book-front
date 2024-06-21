@@ -5,7 +5,6 @@ import FormedInput from '@/components/inputs/formedInput';
 import FormedButton from '@/components/button/formedButton';
 
 const windowWidth = Dimensions.get('window').width;
-const GOOGLE_KEY_API = "AIzaSyAdXaOTyr2Xa176iIVhrb8PgmCZ6dvXpSc"
 
 const AddBooks = () => {
     const [term, setTerm] = useState<string>("")
@@ -39,6 +38,18 @@ const AddBooks = () => {
                 publisher: item.volumeInfo.publisher,
                 description: item.volumeInfo.description
             })))
+            setSelectedData(data.item)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const fetchBookinBack = async () => {
+        console.log()
+        try {
+            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=5&printType=books`)
+            const data = await response.json()
+
+
             setSelectedData(data.item)
         } catch (error) {
             console.log(error)
