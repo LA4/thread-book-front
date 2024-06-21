@@ -4,10 +4,12 @@ import { useFonts } from 'expo-font'
 
 type PropsButtonType = {
     name?: string,
+    width?: number,
+    backgroundColor?: string,
     handleTouch: () => void
 }
 
-const FormedButton = ({ name, handleTouch }: PropsButtonType) => {
+const FormedButton = ({ name, handleTouch, width, backgroundColor = "#58594D" }: PropsButtonType) => {
 
     const [fontsLoaded] = useFonts({
         'RalewayBold': require('@/assets/fonts/Raleway-Bold.ttf'),
@@ -17,7 +19,7 @@ const FormedButton = ({ name, handleTouch }: PropsButtonType) => {
         handleTouch()
     }
     return (
-        <Pressable style={styles.button} onPress={() => handleTouched()}>
+        <Pressable style={[styles.button, { width: width, backgroundColor: backgroundColor }]} onPress={() => handleTouched()}>
             <Text style={styles.text}>{name}</Text>
         </Pressable>
     )
@@ -31,8 +33,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 7,
         padding: 10,
-        backgroundColor: "#58594D",
         height: 42,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
 
     },
     text: {

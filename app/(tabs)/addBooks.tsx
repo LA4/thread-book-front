@@ -9,46 +9,69 @@ const GOOGLE_KEY_API = "AIzaSyAdXaOTyr2Xa176iIVhrb8PgmCZ6dvXpSc"
 
 const AddBooks = () => {
     const [term, setTerm] = useState<string>("")
-    const [dataFormated, setdataFormated] = useState()
-    const [selectedData, setSelectedData] = useState(null)
+    const [dataFormated, setdataFormated] = useState(null)
+    const [selectedData, setSelectedData] = useState({
+        id: "",
+        title: "",
+        pageCount: "",
+        categories: "",
+        author: "",
+        publisher: "",
+        description: ""
+    })
     const [modalVisible, setModalVisible] = useState<boolean | undefined>(false)
     // get api of books
     const fetchBookFromApi = async (term: string) => {
-        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${term}&printType=books`)
-        const data = await response.json()
+        if (term.trim() === "") {
+            return
+        }
+        setdataFormated(null)
+        try {
+            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=5&printType=books`)
+            const data = await response.json()
 
-        setdataFormated(data.items.map((item: any) => ({
-            id: item.id,
-            title: item.volumeInfo.title,
-            pageCount: item.volumeInfo.pageCount || 'Nombre de pages non disponible',
-            categories: item.volumeInfo.categories || 'Nombre de pages non disponible',
-            author: item.volumeInfo.authors,
-            publisher: item.volumeInfo.publisher,
-            description: item.volumeInfo.description
-        })))
-        console.log(data.items)
+            setdataFormated(data.items.map((item: any) => ({
+                id: item.id,
+                title: item.volumeInfo.title,
+                pageCount: item.volumeInfo.pageCount,
+                categories: item.volumeInfo.categories,
+                author: item.volumeInfo.authors,
+                publisher: item.volumeInfo.publisher,
+                description: item.volumeInfo.description
+            })))
+            setSelectedData(data.item)
+        } catch (error) {
+            console.log(error)
+        }
     }
     const handleSelecteData = (item: any) => {
         setSelectedData(item)
-        console.log(item)
         setModalVisible(false)
     }
-
-    useEffect(() => {
-        if (selectedData) {
-        }
-    }, [selectedData]);
-
 
     const handleSubmit = (term: string) => {
         setModalVisible(true)
         fetchBookFromApi(term)
     }
+    const handleAdd = () => {
+        console.log(selectedData)
+    }
+    const handleResetFilds = () => {
+        setSelectedData({
+            id: "",
+            title: "",
+            pageCount: "",
+            categories: "",
+            author: "",
+            publisher: "",
+            description: ""
+        })
+    }
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <Text >Reading a new AddBooks</Text>
+                    <Text style={styles.titleAddBook} >Reading a new book ?</Text>
                     <View style={styles.containerSearch}>
                         <FormedInput placeholder='Search' handleValue={(v) => setTerm(v)} />
                         <FormedButton name="search" handleTouch={() => { handleSubmit(term) }}></FormedButton>
@@ -82,27 +105,32 @@ const AddBooks = () => {
                         />
                     </Modal>
                     <View style={styles.inputsContainer}>
-                        {/* <Text>{selectedData}</Text> */}
-                        <FormedInput placeholder='Le titre' width={windowWidth - 50} label="Book's title" />
+                        <FormedInput placeholder='Le titre' width={windowWidth - 50} valueInfo={selectedData?.title} label="Book's title" />
 
                         <View style={styles.topInputs}>
 
-                            <FormedInput placeholder='Pages' label="Pages" keyboardType='numeric' width={windowWidth / 3} />
-                            <FormedInput placeholder='Author' label="Author" width={windowWidth / 2} />
+                            <FormedInput placeholder='Pages' label="Pages" valueInfo={selectedData?.pageCount} keyboardType='numeric' width={windowWidth / 3} />
+                            <FormedInput placeholder='Author' label="Author" valueInfo={selectedData?.author[0]} width={windowWidth / 2} />
                         </View>
-                        <FormedInput placeholder='Category' label="Category" />
+
+                        <FormedInput placeholder='Category' label="Category" valueInfo={selectedData?.categories[0]} width={windowWidth - 40} />
+                        <FormedInput placeholder='Publisher' label="Publisher" valueInfo={selectedData?.publisher} width={windowWidth - 40} />
+
+
                     </View>
                     <View style={styles.synopsysContainer} >
-                        <TextInput
+                        <FormedInput
+                            placeholder='Description'
                             multiline={true}
-                            placeholder='Synopsys'
-                            style={styles.inputSynopsys}
+                            height={150}
+                            width={windowWidth - 40}
+                            label='Description'
+                            valueInfo={selectedData?.description}
                         />
                     </View>
-                    <View>
-                        <Pressable onPress={() => handleSubmit(term)}>
-                            <Text> Ajouter</Text>
-                        </Pressable>
+                    <View style={styles.bottmButton}>
+                        <FormedButton name="Reset fields" backgroundColor='#78786D' width={150} handleTouch={() => { handleResetFilds() }}></FormedButton>
+                        < FormedButton name="Add book" width={150} handleTouch={() => { handleAdd() }}></FormedButton>
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -134,19 +162,20 @@ const styles = StyleSheet.create({
     containerSearch: {
         flexDirection: "row",
         alignItems: "center",
-        padding: 20
+        padding: 20,
+        marginVertical: 8
     },
 
     inputsContainer: {
+        gap: 20,
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
 
     },
     synopsysContainer: {
-        padding: 20,
-        width: windowWidth - 50,
-        height: 200
+        height: 200,
+        marginVertical: 20
 
     },
     inputSynopsys: {
@@ -159,5 +188,25 @@ const styles = StyleSheet.create({
     topInputs: {
         width: "100%",
         flexDirection: "row"
+    },
+    buttonContainer: {
+        width: 140,
+        padding: 2,
+        height: 20,
+        backgroundColor: "red",
+
+    }, titleAddBook: {
+        color: "#3C3D34",
+        alignSelf: "center",
+        margin: 12,
+        fontFamily: 'RalewayBold',
+        fontSize: 24,
+        textTransform: "uppercase"
+    },
+    bottmButton: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between"
+        , padding: 10
     }
 })

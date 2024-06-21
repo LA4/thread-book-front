@@ -1,5 +1,5 @@
 import { TextInput, StyleSheet, Text, View, KeyboardTypeOptions } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFonts } from 'expo-font'
 
 type PropsType = {
@@ -8,8 +8,10 @@ type PropsType = {
     handleValue?: (data: string) => void | undefined,
     secureTextEntry?: boolean,
     width?: number,
+    height?: number,
     label?: string
-    valueInfo?: string | number
+    valueInfo?: string | number,
+    multiline?: boolean
 }
 
 const FormedInput = ({
@@ -17,22 +19,28 @@ const FormedInput = ({
     placeholder, handleValue,
     secureTextEntry,
     width = 230,
+    height = 42,
     label,
-    valueInfo = "" }: PropsType) => {
+    valueInfo = "",
+    multiline = false }: PropsType) => {
     const [fontsLoaded] = useFonts({
         'RalewayBold': require('@/assets/fonts/Raleway-Bold.ttf'),
         'Raleway': require('@/assets/fonts/Raleway-Regular.ttf'),
     });
-    const [value, setValue] = useState<string>(valueInfo.toString())
+    const [value, setValue] = useState<string>("")
     const catchValue = () => {
         if (handleValue) {
-            handleValue(value)
+
         }
     }
-
+    useEffect(() => {
+        setValue(valueInfo.toLocaleString())
+    }, [valueInfo])
     const handleText = (v: string) => {
         setValue(v)
-        catchValue()
+        if (handleValue) {
+            handleValue(v)
+        }
     }
     return (
         <View>
@@ -41,12 +49,13 @@ const FormedInput = ({
 
             }
             <TextInput
-                style={[styles.input, { width: width }]}
+                style={[styles.input, { width: width, height: height, }]}
                 onChangeText={(v) => handleText(v)}
                 value={value}
                 placeholder={placeholder}
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}
+                multiline={multiline}
             />
         </View>
     )
@@ -60,7 +69,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#F5F6F6",
         padding: 12,
         margin: 6,
-        height: 42,
+
         borderTopRightRadius: 12,
         borderTopLeftRadius: 12,
         borderBottomLeftRadius: 2,
