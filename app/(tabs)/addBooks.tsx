@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Dimensions } from 'react-native';
 import FormedInput from '@/components/inputs/formedInput';
 import FormedButton from '@/components/button/formedButton';
+import { router } from 'expo-router';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -44,13 +45,26 @@ const AddBooks = () => {
         }
     }
     const fetchBookinBack = async () => {
-        console.log()
+        const bookDTO = {
+            title: selectedData.title,
+            author: selectedData.author[0],
+            category: selectedData.categories[0],
+            pages: selectedData.pageCount,
+            user: "666877ec019241ca073a9af3",
+            created_at: new Date(),
+            resume: selectedData.description,
+            opinion: ""
+        }
+        console.log("bookDTO:", bookDTO)
         try {
-            const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=5&printType=books`)
+            const response = await fetch("http://192.168.1.100:3000/books/new", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookDTO)
+            })
             const data = await response.json()
-
-
-            setSelectedData(data.item)
+            console.log("data: ", data)
+            router.replace("/home")
         } catch (error) {
             console.log(error)
         }
@@ -65,7 +79,8 @@ const AddBooks = () => {
         fetchBookFromApi(term)
     }
     const handleAdd = () => {
-        console.log(selectedData)
+        console.log("push button add:", selectedData)
+        fetchBookinBack()
     }
     const handleResetFilds = () => {
         setSelectedData({
